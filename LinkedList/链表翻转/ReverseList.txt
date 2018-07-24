@@ -1,0 +1,92 @@
+struct ListNode{
+	int val;
+	ListNode* next;
+};
+
+
+/*******************原地翻转链表*********************/
+ListNode* reverseList(ListNode* head){
+	ListNode* cur = head;
+	ListNode* pre = NULL;
+	
+	while(cur != NULL){
+		ListNode* next = cur->next;
+		cur->next = pre;
+		pre = cur;
+		cur = next;
+	}
+	
+	return pre;
+}
+
+
+
+/*******************************翻转链表一部分************************/
+//借助vector是实现
+ListNode* reverseList2(ListNode* head, int m, int n){
+	if(head == NUL || m > n)
+		return NULL;
+	
+	int cnt = 0;
+	int k = 0;
+	ListNode* cur = head;
+	std::vector<int> helper(n-m+1);
+	
+	//第一次遍历
+	while(cur != NULL){
+		cnt++;
+		if(cnt>=m && cnt<=n)
+			helper[k++] = cur->val;
+		cur = cur->next;
+	}
+	
+	//第二次遍历
+	cur = head;
+	cnt = 0;
+	while(cur != NULL){
+		cnt++;
+		if(cnt>=m && cnt<=n)
+			cur->val = helper[--k];
+		
+		cur = cur->next;
+	}
+	
+	
+	return head;
+}
+
+
+//本地实现翻转
+//step1:切割链表,遍历找到mth_pre,mth,nth,ntr_next各个节点
+//step2:翻转切割后的子链表
+//拼接翻转后的链表
+ListNode* reverseList2(ListNode* head, int m, int n){
+	if(m>n || head==NULL)
+		return NULL;
+		
+	ListNode* dummy = new dummy(0);
+	dummy->next = head;
+	ListNode* mth_pre = dummy;
+	ListNode* mth, * nth, *nth_next;
+	int cnt=0;
+	while(head!=NULL){
+		cnt++;
+		if(cnt == m-1)
+			mth_pre = cur;
+		if(cnt == n)
+			nth = cur;
+		cur = cur->next;
+	}
+	
+	mth = mth_pre->next;
+	nth_next = nth->next;
+	
+	nth->next = NULL; //打断链表
+	mth_pre->next = reverseList(mth);
+	mth->next = nth_next;
+	
+	return dummy->next;
+	
+}
+
+
