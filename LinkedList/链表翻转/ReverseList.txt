@@ -1,4 +1,4 @@
-struct ListNode{
+﻿struct ListNode{
 	int val;
 	ListNode* next;
 };
@@ -55,7 +55,7 @@ ListNode* reverseList2(ListNode* head, int m, int n){
 	return head;
 }
 
-
+//
 //本地实现翻转
 //step1:切割链表,遍历找到mth_pre,mth,nth,ntr_next各个节点
 //step2:翻转切割后的子链表
