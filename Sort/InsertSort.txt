@@ -1,4 +1,4 @@
-/***********************InsertSort***************************/
+﻿/***********************InsertSort***************************/
 //vector版本
 void insertSort(vector<int> & nums){
 	
@@ -15,3 +15,29 @@ void insertSort(vector<int> & nums){
 
 
 //list版本
+struct ListNode{
+	int val;
+	ListNode* next;
+	ListNode(int x) : val(x), next(NULL){}
+};
+
+
+ListNode* insertSort(ListNode* pHead){
+	if(pHead == NULL)
+		return NULL;
+	
+	ListNode* dummy = new ListNode(0);
+	
+	while(pHead != NULL){
+		ListNode* pre = dummy;
+		ListNode* next = pHead->next;
+		
+		while(pHead->next != NULL && pHead->val < pHead->val)
+			pre = pre->next;
+		pHead->next = pre->next;
+		pre->next = pHead;
+		pHead = next;
+	}
+	
+	return dummy->next;
+}
