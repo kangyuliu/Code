@@ -1,0 +1,29 @@
+/****************************quickSort***************************/
+//vector版本
+void quickSort(vector<int> & nums){
+	quickSort(nums,0,nums.size()-1);
+}
+
+void quickSort(vector<int> & nums, int left, int right){
+	if(left>=right)
+		return;
+	int index = parttion(nums, left, right);
+	quickSort(nums,left, index-1);
+	quickSort(nums,index+1,right);
+} 
+
+//核心parttion
+int parttion(vector<int> & A, int left, int right){
+	//选取基准:最右侧作为基准
+	int povit = nums[right];
+	int index = left;
+	for(int i=left; i< right;i++){
+		if(nums[i] < povit){
+			swap(nums[i],nums[index++]);
+		}
+		
+	}
+	swap(nums[index],nums[right]);
+	return index;
+	
+}

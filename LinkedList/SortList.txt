@@ -1,0 +1,86 @@
+/******************************链表排序*************************/
+/*
+note: 事件复杂度:O(nlogn)
+*/
+//归并排序
+//List版本
+struct ListNode{
+	int val;
+	ListNode* next;
+	ListNode(int x) : val(x),next(NULL){}
+}
+
+
+ListNode* sortList(ListNode* pHead){
+	if(pHead == NULL || pHead->next == NULL)
+		return pHead;
+	
+	ListNode* pMid = findMiddle(pHead);
+	ListNode* pRightHead = sortList(pMid->next);
+	pMid->next = NULL; //打断链表
+	ListNode* pLeftHead = sortList(pHead);
+	return mergeList(pLeftHead,pRightHead);//合并两个排序链表
+}
+
+
+
+
+
+//找到链表的中间的节点
+ListNode* findMiddle(ListNode* pHead){
+	if(pHead==NULL)
+		return NULL;
+	
+	ListNode* slow = pHead;
+	ListNode* fast = pHead;
+	while(fast->next != NULL && fast->next->next != NULL){
+		slow = slow->next;
+		fast = fast->next->next;
+	}
+	
+	return slow;
+}
+
+
+
+//合并两个排序链表
+ListNode*mergeList(ListNode* pHead1, ListNode* pHead2){
+	if(pHead1 == NULL)
+		return pHead2;
+	if(pHead2 == NULL)
+		return pHead1;
+		
+	ListNode* reservedHead; //用于保存排序后的链表头
+	if(pHead1->val < pHead2->val){
+		reservedHead = pHead1;
+		pHead1 = pHead1->next;
+	}
+	else{
+		reservedHead = pHead2;
+		pHead2 = pHead2->next;
+	}
+	
+	ListNode* cur = reservedHead;
+	
+	while(pHead1!=NULL && pHead2 != NULL){
+		if(pHead1->val < pHead2->val){
+			cur->next = pHead1;
+			pHead1 = pHead1->next;
+		}
+		else{
+			cur->next = pHead2;
+			pHead2 = pHead2->next;
+		}
+		
+		cur = cur->next;
+	}
+	
+	if(pHead1 != NULL)
+		cur->next = pHead1;
+	if(pHead2 != NULL)
+		cur->next = pHead2;
+		
+	return reservedHead;
+	
+	
+}
