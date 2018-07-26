@@ -1,4 +1,4 @@
-/****************************quickSort***************************/
+﻿/****************************quickSort***************************/
 //vector版本
 void quickSort(vector<int> & nums){
 	quickSort(nums,0,nums.size()-1);
@@ -25,5 +25,118 @@ int parttion(vector<int> & A, int left, int right){
 	}
 	swap(nums[index],nums[right]);
 	return index;
+	
+}
+
+
+//list版本1
+/*
+note:只交换节点的值val
+*/
+struct ListNode{
+	int val;
+	ListNode * next;
+	ListNode(int x) : val(x), next(NULL){}
+	
+}
+
+
+ListNode* quickSort(ListNode* pHead){
+	if(pHead==NULL || pHead->next == NULL)
+		return pHead;
+	quickSort(pHead, NULL);
+	return pHead;
+}
+
+void quickSort(ListNode* pBegin, ListNode* pEnd){
+	if(pBegin == pEnd|| pBegin->next == pEnd)
+		return;
+		
+	ListNode* pMid = parttion(pBegin, pEnd);
+	quickSort(pBegin,pMid);
+	quickSort(pMid->next,pEnd);
+}
+//核心parttion
+ListNode* parttion(ListNode* pBegin, ListNode* pEnd){
+	if(pBegin == pEnd || bBegin->next == pEnd)
+		return pBegin;
+		
+	//确定基准值
+	int povit = pBegin->val;
+	
+	ListNode *p = pBegin, * q = pBegin;
+	while( q != NULL){
+		if(q->val < povit){
+			p = p->next;
+			swap(p->val, q->val);
+		}
+		q = q->next;
+	}
+	swap(p->next, pBegin->val);
+	return p;
+}
+
+void swap(int &a, int &b){
+	int tmp = a;
+	a = b;
+	b = tmp;
+}
+
+//list版本2
+/*
+只改变链表的指向
+*/
+ListNode* quickSort(ListNode* pHead){
+	if(pHead == NULL || pHead->next == NULL)
+		return pHead;
+	
+	ListNode* pHeadPre = new ListNode(0);
+	pHeadPre->next = pHead;
+	quickSort(pHeadPre,pHead,NULL);
+	return pHeadPre->next;
+}
+
+void quickSort(ListNode* pHeadPre, ListNode* pHead, ListNode* pTail){
+	if(pHead == pTail || pHead->next == pTail)
+		return;
+	
+	ListNode* pMid = parttion(pHeadPre, pHead, pTail);
+	quickSort(pHeadPre,pHeadPre->next,pMid);
+	quickSort(pMid, pMid->next, pTail);
+}
+
+//核心parttion
+ListNode* parttion(ListNode* pHeadPre,ListNode*pHead, ListNode* pTail){
+	int povit = pHead->val;		//选取第一个节点作为基准
+	
+	ListNode nodeL = ListNode(0);
+	ListNode nodeR = ListNode(0);
+	
+	
+	
+	ListNode * pLeft = &nodeL;	//小于基准的链表
+	ListNode * pRight = &nodeR;	//大于基准的链表
+	
+	ListNode* pNode = pHead->next;
+	while(pNode != pTail){
+		if(pNode->val < povit){
+			pLeft->next = pNode;
+			pLeft = pLeft->next;
+		}
+		else{
+			pRight->next = pNode;
+			pRight = pRight->next;
+		}
+		pNode = pNode->next;
+	}
+	
+	
+	//拼接子链
+	pRight->next = pTail;
+	pLeft->next = pHead;
+	pHead->next = nodeR.next;
+	pHeadPre->next = nodeL.next;
+	return pHead;
+	
 	
 }
