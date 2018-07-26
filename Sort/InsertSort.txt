@@ -32,7 +32,7 @@ ListNode* insertSort(ListNode* pHead){
 		ListNode* pre = dummy;
 		ListNode* next = pHead->next;
 		
-		while(pHead->next != NULL && pHead->val < pHead->val)
+		while(pHead->next != NULL && pre->next->val < pHead->val)
 			pre = pre->next;
 		pHead->next = pre->next;
 		pre->next = pHead;
