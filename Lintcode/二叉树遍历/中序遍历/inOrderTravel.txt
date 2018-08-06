@@ -1,0 +1,32 @@
+//µÝ¹é°æ±¾
+vector<int> res;
+vector<int> inOrderTravel(TreeNode * root){
+	if(root!=NULL){
+		inOrderTravel(root->left);
+		res.push_back(root->val);
+		inOrderTravel(root->right);
+	}
+	return res;
+}
+
+
+
+//·ÇµÝ¹é°æ±¾
+vector<int> inOrderTravel(TreeNode* root){
+	vector<int> tmpVect;
+	if(root!=NULL){
+		stack<TreeNode*> tmpStack;
+		while(root || !tmpStack.empty()){
+			
+			while(root){
+				tmpStack.push(root);
+				root=root->left;
+			}
+			root = tmpStack.top();
+			tmpStack.pop();
+			tmpVect.push_back(root->val);
+			root=root->right;
+		}
+	}
+	return tmpVect;
+}

@@ -1,0 +1,88 @@
+TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* A, TreeNode* B){
+	
+	if(root == NULL)
+		return NULL;
+	if(root == A || root == B)
+		return root;
+
+	bool aInLeft = isChild(root->left,A);
+	bool bInLeft = isChild(root->left,B);
+	bool aInRight = isChild(root->right,A);
+	bool bInRight = isChild(root->right,B);
+
+	if(aInLeft && bInLeft)
+		return lowestCommonAncestor(root->left,A,B);
+	else if(aInRight && bInRight)
+		return lowestCommonAncestor(root->right,A,B);
+	else
+		return root;
+	
+}
+
+
+bool isChild(TreeNode* root, TreeNode* A){
+	
+	if(root == NULL)
+		return false;
+	
+	if(root == A)
+		return true;
+	
+	return isChild(root->left,A) || isChild(root->right,A);
+
+}
+
+
+/*
+方法二
+*/
+//判断结点node是否在以root为根的树中，并且path存放从root到node的路径
+bool getNodePath(TreeNode* root, TreeNoed* node,vector<TreeNode*> path){
+	if(root == node)
+		return true;
+	
+	path.push_back(root);
+	
+	bool found = false;
+
+	if(!found && root->left)
+		found = getNodePath(root->left, node, path);
+	
+	
+	if(!found && root->right)
+		found = getNodePath(root->right, node, path);
+
+	if(!found)
+		path.pop();
+
+	return found;
+}
+
+
+TreeNode* getCommonNode(const vector<TreeNode*> & path1, const vector<TreeNode*> & path2){
+	TreeNode* lastNode = NULL;
+	vector<TreeNode*>::iterator iter1 = path1.begin();
+	vector<TreeNode*>::iterator iter2 = path2.begin();
+	while(iter1 != path1.end() && iter2 != path2.end()){
+		if(*iter1 == *iter2)
+			lasrNode = *iter1;
+		
+		iter1++;
+		iter2++;
+	}
+	
+	return lastNode;
+}
+
+
+TreeNode* getLastCommonParent(TreeNode* root, TreeNode* A, TreeNode* B){
+	if(root==NULL || A==NULL || B==NULL)
+		return NULL;
+	vector<TreeNode*> path1;
+	getNodePath(root,A,path1);
+
+	vector<TreeNode*> path2;
+	getNodePath(root,B,path2);
+	
+	return getCommonNode(path1,path2);
+}

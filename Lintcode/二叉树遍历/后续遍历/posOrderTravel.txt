@@ -1,0 +1,35 @@
+//µÝ¹é°æ±¾
+vector<int> res;
+vector<int> posOrderTravel(TreeNode * root){
+	if(root!=NULL){
+		posOrderTravel(root->left);
+		posOrderTravel(root->right);
+		res.push_back(root->val);
+	}
+	return res;
+}
+
+
+//·ÇµÝ¹é°æ±¾
+vector<int> posOrderTravel(TreeNode * root){
+	vector<int> tmpVect;
+	if(root != NULL){
+		stack<TreeNode*> tmpStack;
+		tmpStack.push(root);
+		TreeNode * head = root;
+		while(!tmpStack.empty()){
+			TreeNode* top = tmpStack.top();
+			if(!top->left&&!top->right || t->left == head || t->right==head){
+				tmpVect.push_back(top->val);
+				tmpStack.pop();
+				head=top;
+			}
+			else{
+				if(top->right) tmpStack.push(top->right);
+				if(top->left)  tmpStack.push(top->left);
+			}
+		}
+		
+	}
+	return tmpVect;
+}

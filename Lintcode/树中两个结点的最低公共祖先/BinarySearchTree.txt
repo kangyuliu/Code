@@ -1,0 +1,14 @@
+BSTreeNode* lowestCommonAncestor(BSTreeNode* root,BSTreeNode* A,BSTreeNode* B){
+	
+	if(root == NULL)
+		return NULL;
+
+	if(root->val > A->val && root->val > B->val)
+		return lowestCommonAncestor(root->left, A, B);
+	
+	else if(root->val < A->val && root->val < B->val)
+		return lowestCommonAncestor(root->right, A, B);
+	else	
+		return root;
+	
+}

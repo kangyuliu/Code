@@ -1,0 +1,37 @@
+
+//O(n)
+void preplaceBlank(char str[], int len){
+	if(str == NULL && len<=0 )
+		return;
+	int originalLength = 0;
+	int numBlank = 0;
+	int i=0;
+	while(str[i] != '\0'){
+		originalLength++;
+		if(str[i] == ' ')
+			numBlank++;
+		i++;	
+	}
+
+	int newLength = originalLength + 2 * numBlank;
+	if(newLength > len)
+		rerurn;
+	
+	int indexOriginal = originalLength;
+	int indexNew = newLength;
+	
+	while(indexOriginal >=0 && indexNew > indexOriginal){
+		if(str[indexOriginal] == ' '){
+			str[indexNew--] = '0';
+			str[indexNew--] = '2';
+			str[indexNew--] = '%';
+		}
+		else{
+			str[indexNew] = str[indexOriginal];
+			indexNew--;
+		}
+		indexOriginal--;
+	}
+}
+
+

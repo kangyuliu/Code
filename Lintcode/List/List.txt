@@ -1,0 +1,143 @@
+//单向List实现
+struct ListNode{
+	int val;
+	ListNode* next
+}
+
+//在链表末尾插入一个值
+void addToTail(ListNode** head,int value){
+	ListNode* pNew = new ListNode();
+	pNew->val = value;
+	pNew->next = NULL;
+	
+	if(*head == NULL)
+		*head = Pnew;
+	
+	else{
+		ListNode* pNode = *head;
+		while(pNode->next != NULL)
+			pNode = pNode->next;
+		
+		pNode->next = pNew;
+	}
+	
+}
+
+//在链表中找到第一个含有某值的节点并删除该节点
+void removeNode(ListNode** head,int value){
+	if(head == NULL && *head == NULL)
+		return;
+	
+	ListNode* toBeDeleted = NULL;
+	
+	if((*head)->val == value){
+		toBeDeleted = *head;
+		*head = (*head)->next;
+	}
+	else{
+		ListNode* pNode = *head;
+		while(pNode->next != NULL && pNode->val != value){
+			pNode->next = pNode->next->next;
+		}
+		
+		if(pNode->next != NULL && pNode->next == value){
+			toBeDeleted = pNode->next;
+			pNode->next = pNode->next->next;
+		}
+		
+		if(toBeDeleted != NULL){
+			delete toBeDeleted;
+			toBeDeleted = NULL;
+		}
+	}
+}
+
+
+
+//遍历链表
+
+/*
+从尾到头打印链表
+*/
+//非递归
+void PrintListReversingly_Iteratively(ListNode* head){
+	stack<ListNode*> nodeStk;
+	
+	
+	
+	ListNode* pNode = head;
+	while(pNode != NULL){
+		nodeStk.push(pNode)
+		pNode = pNode->next;
+	}
+	
+	while(!nodeStk.emoty()){
+		pNode = nodeStk.top();
+		printf("&d\t",pNode->val);
+		nodeStk.pop();
+	}	
+}
+
+
+//递归
+void printListReversingly_Recursively(ListNode* head){
+	if(head != NULL){
+		if(head->next != NULL)
+			printListReversingly_Recursively(head->next);
+		
+		printf("%d\t",head->val);
+	}
+}
+
+
+
+
+/*
+链表中倒数第k个节点
+*/
+
+ListNode* findKthToTail(ListNode* head,unsigned int k){
+	if(head== NULL && k==0)
+		return NULL;
+	
+	ListNode* pAhead = head;
+	ListNode* pBehind = NULL;
+	for(int i=0;i<k-1;i++){
+		if(pHead->next !=NULL)
+			pHead = pHead->next;
+		else
+			return NULL;
+	}
+
+	pBehind = head;
+	while(pAhead->next !=NULL){
+		pAhead = pHead->next;
+		pBehind = pBehind->next;
+	}
+	return pBehind;
+}
+
+
+
+/*
+合并两个排序的链表
+*/
+ListNode* Merge(ListNode* pHead1, ListNode* pHead2){
+	if(pHead1 == NULL)
+		return pHead2;
+	else if(pHead2 == NULL)
+		return pHead1;
+
+	ListNode* pMergeHead = NULL;
+	
+	if(pHead1->val < pHead2->val){
+		pMergeHead = pHead1;
+		pMergeHead->next = Merge(pHead1->next,pHead2);
+	}
+	else{
+		pMergeHead = pHead2;
+		pMergeHead->next = Merge(pHead1,pHead2->next);
+	}
+	return pMergeHead;
+		
+}

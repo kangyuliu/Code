@@ -1,0 +1,42 @@
+//merge
+void merge(vector<int> &A, vector<int> &tmpA, int leftPos, int rightPos, int rightEnd){
+	int leftEnd=rightPos-1;
+	int curPos=leftPos;
+	int numsElements=rightEnd-leftPos+1;
+
+	while(leftPos<=leftEnd && rightPos<=rightEnd){
+		if(A[leftPos]<A[rightPos]){
+			tmpA[curPos++]=A[leftPos];
+			leftPos++;
+		}
+		
+		else{
+			tmpA[curPos++]=A[rightPos];
+			rightPos++;
+		}
+	}
+
+
+	while(leftPos<=leftEnd){
+		tmpA[curPos++]=A[leftPos];
+		leftPos++;
+	}
+
+	while(rightPos<=rightEnd){
+		tmpA[curPos++] =A[rightPos];
+		rightPos++;
+	}
+
+	for(int i=0;i<numsElement;i++,rightEnd--)
+		A[rightEnd]=tmpA[rightEnd];
+}
+
+
+void mergeSort(vector<int>&A, vector<int> &tmpA, int left, int right){
+	if(left < right){
+		int mid = (right+left)/2;
+		mergeSort(A,tmpA,left,mid);
+		mergeSort(A,tmpA,mid+1,right);
+		merge(A,tmpA,left,mid+1,right);
+	}
+}

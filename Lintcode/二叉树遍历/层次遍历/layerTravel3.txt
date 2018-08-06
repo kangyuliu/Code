@@ -1,0 +1,31 @@
+vector<vector<int> > layerTravel(TreeNode *root){
+	vector<vector<int> > res;
+	if(root != NULL){
+		vector<int> tmpVect;
+		queue<TreeNode*> que;
+		int i=1;//指示每层应该具有的节点数
+		int j=0;//指示每层空节点数
+		que.push(root);
+		while( !que.empty()){
+			TreeNode* tmpNode = que.front();
+			que.pop();
+			if(tmpNode == NULL){
+				j++;
+				
+			}
+			else{
+				tmpVect.push_back(tmpNode->val);
+				que.push(tmpNode->left);
+				que.push(tmpNode->right);
+			}
+			if(i == (tmpVect.size()+j) && tmpVect.size()!=0){ //表层该层读入完毕
+				res.push_back(tmpVect);
+				tmpVect.clear();
+				i*=2;
+				j*=2;
+			}
+		}
+
+	}
+	return res;
+}

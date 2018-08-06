@@ -1,0 +1,42 @@
+class BSTIterator{
+public:
+	vector<TreeNode*> inorder;//存储中序遍历查找二叉树
+	int current;
+	
+
+	BSTIterator(TreeNode * root){
+		inorder = inorderTravel(root);
+		current = 0;
+	}
+
+	bool hasNext(){
+		if(current == inorder.size())
+			return false;
+		else 
+			return true;
+	}
+	
+
+	TreeNode* next(){
+		return inorder[current++];
+	}
+
+	vector<TreeNode*> inorderTravel(TreeNode* root){
+		vector<TreeNode*> tmpVect;
+		if(root == NULL)
+			return tmpVect;
+		stack<TreeNode*> tmpStack;
+		
+		while(root || !tmpStack.empty()){
+			while(root){
+				tmpStack.push(root);
+				root = root->left;
+			}
+			root = tmpStack.top();
+			tmpStack.pop();
+			tmpVect.push_back(root);
+			root = root->right;
+		}
+		return tmpVect;
+	}
+}

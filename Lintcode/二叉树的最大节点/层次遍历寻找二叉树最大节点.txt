@@ -1,0 +1,38 @@
+ TreeNode * maxNode(TreeNode * root){
+	 // write your code here
+       
+	if(root == NULL)
+
+            return NULL;
+	int max = root->val;
+        
+	TreeNode * tmpNode = new TreeNode(max);
+        
+	queue<TreeNode*> que;
+        
+	que.push(root);
+	while(!que.empty()){
+            
+		TreeNode* front = que.front();
+            
+		que.pop();
+            
+		if(front->val > max){
+                
+			max = front->val;
+                
+			tmpNode = front;
+            
+		}
+	
+		if(front->left)
+                
+		que.push(front->left);
+            
+		if(front->right)
+                
+		que.push(front->right);
+
+	}
+	return tmpNode;
+}

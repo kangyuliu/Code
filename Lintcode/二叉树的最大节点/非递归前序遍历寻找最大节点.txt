@@ -1,0 +1,28 @@
+TreeNode * maxNode(TreeNode * root){
+	if(root == NULL)
+		return NULL;
+	
+	int max = root->val;
+	TreeNode * tmpNode = new TreeNode(max);
+	
+
+	stack<TreeNode*> tmpStack;
+
+	while(root || !tmpStack.empty()){
+		
+		while(root){
+			if(root->val > max){
+				max = root->val;
+				tmpNode = root;
+			}
+			tmpStack.push(root);
+			root = root->left;
+			
+		}
+		root = tmpStack.top();
+		tmpStack.pop();
+		root = root->right;
+		
+	}
+	return tmpNode;
+}

@@ -1,0 +1,35 @@
+TreeNode * buildTree(vector<int> &inorder, vector<int> & postorder){
+	if(inorder.empty() || postorder.empty())
+		return NULL;
+	if(inorder.size() != postorder.size())
+		return NULL;
+	vector<int> inorder_left,inorder_right,postorder_left,postorder_right;
+	int len = postorder.size();
+	int rootIndex=0;
+	
+	//后序遍历的最后一个节点即为root
+	TreeNode * root = postorder[len-1];
+	
+	//在中序遍历中找到root
+	for(int i=0;i<len;i++){
+		if(inorder[i] == postorder[len-1])
+		rootIndex = i;
+		break;
+	}
+	//构造左子树的中序遍历和后序遍历
+	for(int i=0;i<rootIndex;i++){
+		inorder_left.push_back(inorder[i]);
+		postorder_left.push_back(postorder[i]);
+	}
+
+	//构造右子树的中序遍历和后序遍历
+	for(int i=rootIndex+1;i<len;i++){
+		inorder_right.push_back(inorder[i]);
+		postorder_right.push_back(postorder[i-1]);
+	}
+
+	root->left = buildTree(inorder_left,postorder_left);
+	root->right = buildTree(inorder_right,postorder_right);
+	
+	return root;
+}

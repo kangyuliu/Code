@@ -1,0 +1,20 @@
+vector<int> layerTravel(TreeNode* root){
+	vector<int> res;
+	if(root != NULL){
+		vector<int> tmpVect;
+		queue<TreeNode*> que;
+		que.push(root);
+		while(!que.empty()){
+			TreeNode * tmpNode = que.front();
+			que.pop();
+			tmpVect.push_back(tmpNode->val);
+			if(tmpNode->left != NULL)
+				que.push(tmpNode->left);
+			if(tmpNode->right != NULL)
+				que.push(tmpNode->right);
+		}	
+
+	}
+	return res;
+
+}

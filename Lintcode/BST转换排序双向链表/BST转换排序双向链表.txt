@@ -1,0 +1,33 @@
+void convertNode(BinaryTreeNode* root, BinaryTreeNode** lastNodeInList){
+	if(root == NULL)
+		return ;
+
+	BinaryTreeNode* curNode = root;
+	if(curNode->left){
+		convertNode(curNode->left,lastNodeInList);
+	}
+
+	curNode->left = *lastNodeInList;
+	if(*lastNodeInList){
+		(*lastNodeInList)->right = curNode;
+	}
+	
+	*lastNodeInList = curNode;
+
+	if(curNode->right)
+		convertNode(curNode->right,lastNodeInLast);
+}
+
+
+BinaryTreeNode* convert(BinaryTreeNode* root){
+	BinaryTreeNode* lastNodeInList = NULL;
+	convertNode(root,&lastNodeInList);
+	
+	//需要返回双向链表的头结点
+	BinaryTreeNode* headOfList = lastNodeInList;
+	while(headOfList && headOfList->left){
+		headOfList = headOfList->left;
+		
+	}
+	return headOfList;
+}

@@ -1,0 +1,24 @@
+//·ÖÇø
+int parttion(vector<int> &A, int left, int right){
+	int piv=A[right];
+	int lastIndex=left;
+	for(int i=left;i<right;i++){
+		if(A[i] < piv){
+			swap(A[i],A[lastIndex]);
+			lastIndex++;
+		}
+	}
+
+	swap(A[right],A[lastIndex]);
+	return lastIndex;
+}
+
+
+
+void quickSort(vector<int> &A, int left, int right){
+	if(left<right){
+		int indexPiv=parttion(A,left,right);
+		quickSort(A,left,indexPiv-1);
+		quickSort(A,indexPiv+1,right);
+	}
+}

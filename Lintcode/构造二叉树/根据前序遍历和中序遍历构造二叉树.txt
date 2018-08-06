@@ -1,0 +1,38 @@
+TreeNode* buildTree(vector<int> &preorder,vector<int> & inorder){
+	if(preorder.empty() || inorder.empty())
+		return NULL;
+	if(preorder.size() != inorder.size())
+		return NULL;
+	
+
+	vector<int> preorder_left,preorder_right,inorder_left,inorder_right;
+	int rootIndex=0;
+	int len = preorder.size();
+	//前序序列的第一个节点即为根节点
+	TreeNode * root = new TreeNode(preorder[0]);
+
+	//在中序遍历中找到root
+	for(int i=0;i<len;i++){
+		if(inorder[i] == preorder[0])
+			rootIndex = i;
+			break;
+	}
+
+
+	//构造左子树的前序遍历和中序遍历
+	for(int i=0; i<rootIndexl;i++){
+		preorder_left.push_back(preorder[i+1]);
+		inorder_left.push_back(inorder[i]);
+	}
+	
+	//构造右子树的前序遍历和中序遍历
+	for(int i=rootIndex+1;i<len;i++){
+		preorder_right.push_back(preorder[i]);
+		inorder_right.push_back(inorder[i]);
+	}
+
+
+	root->left = buildTree(preorder_left,inorder_left);
+	root->right = buildTree(preorder_right,inorder_right);
+	return root;
+}
