@@ -1,0 +1,81 @@
+/*
+*懒汉模式
+*/
+/*
+*所谓懒汉模式，就是尽可能晚的创建这个对象的实例,
+*即在单例类第一次被引用时将自己初始化
+*/
+
+//方式一
+//@直接实现
+//仅适用于单线程，存在多线程安全问题
+
+class Singletion{
+	private:
+		static Singletion* pInstance;
+		Singletion(){}
+	
+	public:
+		static Singletion* getInstance(){
+			if(pInstance == NULL)
+				pInstance = new Singletion();
+			
+			return pInstance;
+		}
+		
+}
+
+Singletion* Singletion::pInstance = NULL;			//最开始时，初始为NULL
+
+
+
+//方法二
+//@加锁
+class Singletion{
+	private:
+		static Singletion* pInstance;
+		static pthread_mutex_t mutex;
+		Singletion(){
+			pthread_mutex_init(&mutex);
+		}
+	
+	public:
+		static Singletion* getInstance(){
+			pthread_mutex_lock(&mutex);		//加锁
+			if(pInstance == NULL)
+				pInstance = new Singletion();
+			
+			pthread_mutex_unlock(&mutex);
+			
+			return pInstance;
+		}
+}
+
+Singletion* Singletion::pInstance = NULL;		//最开始时，初始为NULL
+
+
+
+//方法三
+//@加锁优化
+class Singletion{
+	private:
+		static Singletion* pInstance;
+		static pthread_mutex_t mutex;
+		Singletion(){
+			pthread_mutex_init(&mutex);
+		}
+		
+	public:
+		static Singletion* getInstance(){
+			if(pInstance == NULL){
+				pthread_mutex_lock(&mutex);
+				if(pInstance == NULL)
+					pInstance = new Singletion();
+				pthread_mutex_unlock(&mutex);
+				
+			}
+		}
+							
+}
+
+Singletion* Singletion::pInstance = NULL;		//最开始时，初始为NULL

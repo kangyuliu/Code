@@ -1,0 +1,42 @@
+/*
+*饿汉模式
+*/
+
+//方式一
+//@静态指针+类外初始化时new空间实现
+/*
+*饿汉单例模式：在最开始的时候，静态对象已经创建完成
+*设计方法是:
+1.类中包含一个静态成员指针，该指针指向该类的一个对象;
+2.提供一个公有的静态成员方法，返回该对象指针
+3.为了使得对象唯一，还需要将构造函数设为私有
+*/
+
+class Singletion{
+	private:
+		static Singletion *pInstance;	//静态成员，指向Singletion对象的指针
+		Singletion(){}					//构造函数私有化
+	
+	public:
+		//提供静态共有方法，可以使用类名+域名进行访问，返回对象指针
+		static Singletion* getInstance(){
+			return pInstance;
+		}
+}
+
+Singletion* Singletion::pInstance = new Singletion(); //在最开始的时候，创建完成静态对象
+
+
+//方式二
+//@直接定义静态对象
+class Singletion{
+	private:
+		static Singletion m_Instance;
+		Singletion(){}
+	public:
+		static Singletion getInstance(){
+			return m_Instance;
+		}
+}
+
+Singletion Singletion::m_Instance；
