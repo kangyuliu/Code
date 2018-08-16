@@ -1,0 +1,77 @@
+/*
+*topK
+*/
+//求n个数中的前k个数
+1. 利用快排中的parttion来求前k个数
+int parttion(vector<int> &nums, int left ,int right);
+
+vector<int> topK(vector<int> &nums, int k){
+	vector<int> ret;
+	int size = nums.size();
+	if(size < k || k<=0 || size <=0)
+		return ret;
+	
+	int start = 0;
+	int end = size - 1;
+	int index = parttion(nums, start, end);
+	while(index != k-1){
+		if(index > k-1){
+			end = index - 1;
+			index = parttion(nums, start, end);
+		}
+		else{
+			start = index + 1;
+			index = parttion(nums, start, end);
+		}
+	}
+	for(int i=0; i < k; i++)
+		ret[i] = nums[i];
+	
+	return ret;
+}
+
+//利用最大堆(大顶堆)来实现
+//核心
+void heapify(vector<int> &nums, int i, int size){
+	int left_child = 2*i + 1;
+	int right_child = 2*i + 2;
+	int maxIndex = i;
+	if(left_child < size && nums[left_child] > nums[maxIndex])
+		maxIndex = left_child;
+	if(right_child < size && nums[right_child] > nums[maxIndex])
+		maxIndex = right_child;
+	
+	if(maxIndex != i){
+		swap(nums[i], nums[maxIndex]);
+		heapify(nums, maxIndex, size);
+	}
+}
+
+void makeHeap(vector<int> & nums){
+	int size = nums.size();
+	for(int i=size/2-1; i >=0; i--)
+		heapify(nums, i, size);
+}
+
+vector<int> topK(vector<int> &nums, int k){
+	vector<int> ret;
+	int size = nums.size();
+	if(k > size || size <=0 || k <= 0)
+		return ret;
+	
+	for(auto iter = nums.begin(); iter != nums.end(); iter++){
+		if(ret.size() < k){
+			ret.insert(*auto);
+			if(ret.size() == k)
+				makeHeap(ret, 0, k);
+		}
+			
+		else{
+			if(*iter < ret[0]){
+				ret[0] = *iter;
+				heapify(ret, 0, k);
+			}
+		}
+	}
+	return ret;
+}

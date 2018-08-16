@@ -1,0 +1,42 @@
+/*
+*对排序
+*/
+// 分类 -------------- 内部比较排序
+// 数据结构 ---------- 数组
+// 最差时间复杂度 ---- O(nlogn)
+// 最优时间复杂度 ---- O(nlogn)
+// 平均时间复杂度 ---- O(nlogn)
+// 所需辅助空间 ------ O(1)
+// 稳定性 ------------ 不稳定
+
+void heapify(vector<int> &nums, int i, int size){
+	int left_child = 2*i+1;
+	int right_child = 2*i+2;
+	int maxIndex = i;
+	if(left_child < size && nums[left_child] > nums[maxIndex])
+		maxIndex = left_child;
+	if(right_child < size && nums[right_child] > nums[maxIndex])
+		maxIndex = right_child;
+	
+	if(maxIndex != i){
+		swap(nums[i], nums[maxIndex]);
+		heapify(nums, maxIndex, size);
+	}
+	
+}
+
+void buildHeap(vector<int> &nums){
+	int size = nums.size();
+	for(int i = size/2-1; i >=0; i--){
+		heapify(nums, i, size);
+	}
+}
+
+void heapSort(vector<int> & nums){
+	int size = nums.size();
+	buildHeap(nums);
+	while(size >1){
+		swap(nums[--size], nums[0]);
+		heapify(nums, 0, size);
+	}
+}
