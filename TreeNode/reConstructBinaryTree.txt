@@ -1,0 +1,85 @@
+//重建二叉树
+/*
+*版本一
+*/
+//由前序遍历和中序遍历重建二叉树
+struct TreeNode{
+	int val;
+	TreeNode *left;
+	TreeNode *right;
+	TreeNode(int x) : val(x), left(NULL), right(NULL){}
+};
+
+TreeNode* reConstructBinaryTree(vector<int> pre, vector<int> vin){
+	if(pre.size() != vin.size())
+		return NULL;
+	
+	if(pre.size() == 0 && vin.size() == 0)
+		return NULL;
+	
+	vector<int> left_pre, left_vin, right_pre, right_vin;
+	TreeNode* root = new TreeNode(pre[0]);
+	
+	//在中序遍历中寻找根节点
+	int index;
+	for(int i=0; i < vin.size(); i++){
+		if(vin[i] == pre[0]){
+			index = i;
+			break;
+		}
+	}
+	
+	for(int i=0; i < index; i++){
+		left_pre.push_back(pre[i+1]);
+		left_vin.push_back(vin[i]);
+	}
+	for(int i=index+1; i < pre.size(); i++){
+		right_pre.push_back(pre[i]);
+		right_vin.push_back(vin[i]);
+	}
+	
+	root->left = reConstructBinaryTree(left_pre, left_vin);
+	root->right = reConstructBinaryTree(right_pre, right_vin);
+	
+	return root;
+}
+
+/*
+*版本二
+*/
+//由后序遍历和中序遍历重建二叉树
+TreeNode* reConstructBinaryTree(vector<int> vin, vector<int> pos){
+	if(vin.size() != pos.size())
+		return NULL;
+	
+	if(vin.size() == 0 && pos.size() == 0)
+		return NULL;
+		
+	TreeNode* root = new TreeNode(pos[pos>size()-1]);
+	
+	vector<int> left_vin, left_pos, right_vin, right_pos;
+	
+	//在中序遍历中寻找根节点
+	int index;
+	for(int i=0; i < vin.size(); i++){
+		if(vin[i] == pos[pos.size()-1]){
+			index = i;
+			break;
+		}
+	}
+	
+	for(int i=0; i < index; i++){
+		left_vin.push_back(vin[i]);
+		left_pos.push_back(pos[i]);
+	}
+	
+	for(int i=index+1; i < vin.size(); i++){
+		righ_vin.push_back(vin[i]);
+		right_pos.push_back(pos[i-1]);
+	}
+	
+	root->left = reConstructBinaryTree(left_vin, left_pos);
+	root->right = reConstructBinaryTree(righ_vin, right_pos);
+	
+	return root;
+}
