@@ -1,0 +1,47 @@
+struct TreeNode{
+	int val;
+	TreeNode* left;
+	TreeNode* right;
+	TreeNode(int x) : val(x), left(NULL), right(NULL){}
+};
+
+/*
+*version-1
+*/
+//递归版本
+vector<int> preTravel(TreeNode* pRoot){
+	vector<int> ret;
+	preTravel(pRoot, ret);
+	return ret;
+}
+
+void preTravel(TreeNode* pRoot, vector<int> &ret){
+	if(pRoot == NULL)
+		return;
+	ret.push_back(pRoot->val);
+	preTravel(pRoot->left);
+	preTravel(pRoot->right);
+}
+
+/*
+*version-2
+*/
+//非递归版本
+vector<int> preTravel(TreeNode* pRoot){
+	vector<int> ret;
+	if(pRoot == NULL)
+		return ret;
+	
+	stack<TreeNode*> stk;
+	while(!stk.empty() || pRoot!= NULL){
+		while(pRoot != NULL){
+			stk.push(pRoot);
+			ret.push_back(pRoot->val);
+			pRoot = pRoot->left;
+		}
+		TreeNode* top = stk.top();
+		stk.pop();
+		pRoot = top->right;
+	}
+	return ret;
+}
