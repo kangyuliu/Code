@@ -1,0 +1,30 @@
+/*
+*输入两棵二叉树A，B，判断B是不是A的子结构。
+*（ps：我们约定空树不是任意一个树的子结构）
+*/
+struct TreeNode{
+	int val;
+	TreeNode* left;
+	TreeNode* right;
+	TreeNode(int x) : val(x), left(NULL), right(NULL){}
+};
+
+//功能类似isSame(TreeNode* pRootA, TreeNode* pRootB)
+bool hasSubtree(TreeNode* pRootA, TreeNode* pRootB){
+	if(pRootA == NULL || pRootB == NULL)
+		return false;
+	
+	return isSubtree(pRootA, pRootB) || hasSubtree(pRootA->left, pRootB) || hasSubtree(pRootA->right, pRootB);
+} 
+
+bool isSubtree(TreeNode* pRootA, TreeNode* pRootB){
+	if(pRootB == NULL)
+		return true;
+	if(pRootA == NULL)
+		return false;
+	
+	if(pRootA->val != pRootB->val)
+		return false;
+		
+	return isSubtree(pRootA->left, pRootB->left) && isSubtree(pRootA->right, pRootB->right);
+}

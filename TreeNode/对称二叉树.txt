@@ -1,0 +1,142 @@
+struct TreeNode{
+	int val;
+	TreeNode* left;
+	TreeNode* right;
+	TreeNode(int x) : val(x), left(NULL), right(NULL){}
+};
+
+//判断一棵二叉树是否对称
+
+
+/*
+*version-1
+*/
+//递归版本
+bool isSymmetrical(TreeNode* pRoot){
+	if(pRoot == NULL)
+		return true;
+	return isSame(pRoot->left, pRoot-right);
+}
+
+bool isSame(TreeNode* pLeft, TreeNode* pRight){
+	if(pLeft == NULL && pRight == NULL)
+		return true;
+	if(pLeft == NULL || pRight == NULL)
+		return false;
+	
+	if(pLeft->val != pRight->val)
+		return false;
+	
+	return isSame(pLeft->left, pRight->right) && isSame(pLeft->right, pRight->left);
+}
+
+/*
+*version-2
+*/
+//非递归版本
+//思路:
+//前序遍历、中序遍历、后序遍历、层次遍历中任一种均可
+//以后序遍历为例：采用LRN和RLN各遍历一次，判断两次结果
+//如果两次遍历结果相等，则对称，否则，不对称
+//注：此方法不对，若存在所有节点的值均相等，无法判断
+bool isSymmetrical(TreeNode* pRoot){
+	if(pRoot == NULL)
+		return true;
+	vector<int> ret_LRN = postorderTravel_LRN(pRoot);
+	vector<int> ret_RLN = postorderTravel_RLN(pRoot);
+	if(ret_LRN == ret_RLN)
+		return true;
+	return false;
+}
+
+vector<int> postorderTravel_LRN(TreeNode* pRoot){
+	vector<int> ret;
+	if(pRoot == NULL)
+		return ret;
+	
+	stack<TreeNode*> stk;
+	stk.push(pRoot);
+	TreeNode* pre = pRoot;
+	while(!stk.empty()){
+		TreeNode* top = stk.top();
+		if((top->left == NULL && top->right == NULL) || (top->left == pre) || (top->right == pre)){
+			ret.push_back(top->val);
+			stk.pop();
+			pre = top;
+		}
+		else{
+			if(top->right != NULL){
+				stk.push(top->right);
+			}
+			if(top->left != NULL){
+				stk.push(top->left);
+			}
+				
+		}
+	}
+	return ret;
+}
+
+vector<int> postorderTravel_RLN(TreeNode* pRoot){
+	vector<int> ret;
+	if(pRoot == NULL)
+		return ret;
+	
+	stack<TreeNode*> stk;
+	stk.push(pRoot);
+	TreeNode* pre = pRoot;
+	while(!stk.empty()){
+		TreeNode* top = stk.top();
+		if((top->left == NULL && top->right == NULL) || (top->left == pre) || (top->right == pre)){
+			ret.push_back(top->val);
+			stk.pop();
+			pre = top;
+		}
+		else{
+			if(top->left != NULL){
+				stk.push(top->left);
+			}
+			if(top->right != NULL){
+				stk.push(top->right);
+			}
+				
+		}
+	}
+	return ret;
+}
+
+
+/*
+*version-3
+*/
+//非递归版本-基于层次遍历
+bool isSymmetrical(TreeNode* pRoot){
+	if(pRoot == NULL)
+		return true;
+	queue<TreeNode*> q1, q2;
+	TreeNode *pLeft, *pRight;
+	q1.push(pRoot->left);
+	q2.push(pRoot->right);
+	
+	while(!q1.empty() && !q2.empty()){
+		pLeft = q1.front();
+		q1.pop();
+		pRight = q2.front();
+		q2.pop();
+		
+		if(pLeft == NULL && pRight == NULL)
+			continue;
+		if(pLeft == NULL || pRight == NULL)
+			return false;
+		
+		if(pLeft->val != pRight->val)
+			return false;
+		q1.push(pLeft->left);
+		q1.push(pLeft->right);
+		
+		q2.push(pRight->right);
+		q2.push(pRight->left);
+	}
+	return true;
+}
+
