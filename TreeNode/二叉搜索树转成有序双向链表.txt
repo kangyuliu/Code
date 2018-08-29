@@ -1,0 +1,114 @@
+/*
+struct TreeNode {
+	int val;
+	struct TreeNode *left;
+	struct TreeNode *right;
+	TreeNode(int x) :
+			val(x), left(NULL), right(NULL) {
+	}
+};*/
+
+//思路:利用二叉搜索树的中序遍历
+
+
+/*
+*version-1
+*/
+//非递归中序遍历
+TreeNode* convert(TreeNode* root){
+	if(root == NULL)
+		return NULL;
+	
+	stack<TreeNode*> stk;
+	TreeNode* pre = NULL;
+	TreeNode* first = NULL;
+	TreeNode* cur = root;
+	bool isFirst = true;
+	while(!stk.empty() || cur != NULL){
+		while(cur != NULL){
+			stk.push(cur);
+			cur = cur->next;
+		}
+		TreeNode* top = stk.top();
+		stk.pop();
+		if(isFirst){
+			first = top;
+			isFirst = false;
+			top->left = pre;
+			pre->right = top;
+			pre = top;
+			
+		}
+		else{
+			top->left = pre;
+			pre->right = top;
+			pre = top;
+		}
+		cur = top->right;
+	}
+	
+	return first;
+}
+
+/*
+*version-2
+*/
+//递归版本 中序遍历RNL
+TreeNode* convert(TreeNode* root){
+	TreeNode* last = NULL;
+	convertHelper(root, last);
+	
+	return last;
+	
+}
+
+void convertHelper(TreeNode* node, TreeNode* &last){
+	if(node == NULL)
+		return;
+	
+	if(node != NULL)
+		convertHelper(node->right, last);
+	
+	node->right = last;
+	
+	if(last != NULL)
+		last->left = node;
+	
+	last = node;
+	
+	if(node->left != NULL)
+		convertHelper(node->left, last);
+}
+
+
+/*
+*version-3
+*/
+//递归版本 中序遍历LNR
+TreeNode* convert(TreeNode* root){
+	
+	TreeNode* last = NULL;
+	convertHelper(root, last);
+	while(last != NULL && last->left != NULL)
+		last = last->left;
+		
+	return last;
+}
+
+void convertHelper(TreeNode* node, TreeNode* & last){
+	if(node == NULL)
+		return;
+	
+	if(node->left != NULL)
+		convertHelper(node->left, last);
+		
+	node->left = last;
+	
+	if(last != NULL)
+		last->right = node;
+	
+	last = node;
+	
+	if(node->right != NULL)
+		convertHelper(node->right, last);
+}

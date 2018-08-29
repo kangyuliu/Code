@@ -1,0 +1,51 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+ 
+ //注:在这里，所转换成的二叉搜索树是AVL树（平衡二叉树）
+ 
+ TreeNode *sortedListToBST(ListNode* head){
+	
+ }
+ 
+ 
+ TreeNode* sortedListToBST(ListNode* left, ListNode* right){
+	if(left == right)
+		return NULL;
+	
+	ListNode* mid = findMid(left, right);
+	TreeNode* root = new TreeNode(mid->val);
+	ListNode* newRight = mid->next;
+	mid->next = NULL; //打断
+	root->right = sortedListToBST(newRight, right);
+	root->left = sortedListToBST(left, mid);
+	
+	return root;
+ }
+	
+ 
+ ListNode* findMid(ListNode* left, ListNode* right){
+	if(left == right)
+		return left;
+	
+	ListNode *slow = left, *fast = left;
+	while(fast->next != right && fast->next->next != right){
+		slow = slow->next;
+		fast = fast->next->next;
+	}
+	return slow;
+ }
