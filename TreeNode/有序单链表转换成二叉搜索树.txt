@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Definition for singly-linked list.
  * struct ListNode {
  *     int val;
@@ -19,7 +19,8 @@
  //注:在这里，所转换成的二叉搜索树是AVL树（平衡二叉树）
  
  TreeNode *sortedListToBST(ListNode* head){
-	
+	TreeNode* root = sortedListToBST(head, NULL);
+	return root;
  }
  
  
@@ -29,11 +30,9 @@
 	
 	ListNode* mid = findMid(left, right);
 	TreeNode* root = new TreeNode(mid->val);
-	ListNode* newRight = mid->next;
+	root->right = sortedListToBST(mid->next, right);
 	mid->next = NULL; //打断
-	root->right = sortedListToBST(newRight, right);
 	root->left = sortedListToBST(left, mid);
-	
 	return root;
  }
 	

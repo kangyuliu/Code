@@ -1,4 +1,4 @@
-/*
+﻿/*
 struct TreeNode {
 	int val;
 	struct TreeNode *left;
@@ -21,7 +21,7 @@ TreeNode* convert(TreeNode* root){
 	
 	stack<TreeNode*> stk;
 	TreeNode* pre = NULL;
-	TreeNode* first = NULL;
+	TreeNode* head = NULL;
 	TreeNode* cur = root;
 	bool isFirst = true;
 	while(!stk.empty() || cur != NULL){
@@ -32,10 +32,8 @@ TreeNode* convert(TreeNode* root){
 		TreeNode* top = stk.top();
 		stk.pop();
 		if(isFirst){
-			first = top;
+			head = top;
 			isFirst = false;
-			top->left = pre;
-			pre->right = top;
 			pre = top;
 			
 		}
