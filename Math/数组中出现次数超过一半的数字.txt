@@ -1,0 +1,106 @@
+/*
+*数组中出现次数超过一半的数字
+*/
+
+//version-1
+//利用map统计数组中每个数字出现的个数
+int MoreThanHalfNum_Solutio(vector<int> &nums){
+	int size = nums.size();
+	if(size == 0)
+		return 0;
+	
+	int ret = 0;
+	
+	map<int, int> map;
+	for(int i=0; i< size; i++)
+		map[nums[i]]++;
+	
+	for(auto iter = map.begin(); iter != map.end(); ++iter){
+		if(iter->second > size/2){
+			ret = iter->first;
+			break;
+		}
+	}
+	
+	return ret;
+}
+
+
+//version-2
+//基于parttion函数，来定定位中位数，时间复杂度O(N)
+int MoreThanHalfNum_Solutio(vector<int> &nums){
+	int size = nums.size();
+	if(size == 0)
+		return 0;
+	
+	int mid = size/2;
+	int left = 0;
+	int right = size-1;
+	int index = parttion(nums, left, right);
+	while(index != mid){
+		if(index > mid){
+			right = index -1;
+			index = parttion(nums, left, right);
+		}
+		else{
+			left = index +1;
+			index = parttion(nums, left, right);
+		}
+	}
+	
+	int ret = nums[index];
+	int cnt = 0;
+	for(int i=0; i < size; i++){
+		if(nums[i] == ret)
+			cnt++;
+	}
+	if(cnt >size/2)
+		return ret;
+	else
+		return 0;
+}
+
+int parttion(nums, left, right){
+	int povit = nums[right];
+	int index = left;
+	for(int i=0; i < right; i++){
+		if(nums[i] < povit){
+			swap(nums[index++], nums[i])
+		}
+			
+	}
+	swap(nums[right], nums[index]);
+	return index;
+}
+
+
+//version-3
+//利用数目大于一半
+int MoreThanHalfNum_Solutio(vector<int> &nums){
+	int size = nums.size();
+	if(size == 0)
+		return 0;
+	
+	int ret = nums[0];
+	int cnt = 1;
+	for(int i=1; i < size; i++){
+		if(nums[i] == ret)
+			cnt++;
+		else
+			cnt--;
+		if(cnt == 0){
+			ret = nums[i];
+			cnt = 1;
+		}
+	}
+	
+	cnt =0;
+	for(int i=0; i < size; i++){
+		if(nums[i] == ret)
+			cnt++;
+	}
+	if(cnt > size/2)
+		return ret;
+	else
+		return	0;
+}

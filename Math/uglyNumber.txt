@@ -1,0 +1,76 @@
+/*
+*丑数
+*/
+//分三种情况
+
+//case1: 判断一个数是否为丑数
+/*
+*把只包含质因子2、3和5的数称作丑数（Ugly Number）。
+*例如6、8都是丑数，但14不是，因为它包含质因子7。
+*/
+
+bool isUglyNumber(int n){
+	if(n <=0)
+		return false;
+	
+	while(n % 2== 0)
+		n /= 2;
+	while(n % 3 == 0)
+		n /= 3;
+	
+	while(n % 5 == 0)
+		n /= 5;
+	
+	if(n == 1)
+		return true;
+	else
+		return false;
+}
+
+//case2：从小到大第n个丑数
+
+int GetUglyNumber_Solution(int n){
+	if(n <=0)
+		return 0;
+	
+	vector<int> ret(n);
+	ret[0] = 1;
+	int i2=0, i3=0, i5=0;
+	for(int i=1; i < n; i++){
+		int tmp = min(ret[i2]*2, min(ret[i3]*3, ret[i5]*5));
+		ret[i] = tmp;
+		if(ret[i2]*2 == tmp)
+			i2++;
+		if(ret[i3]*3 == tmp)
+			i3++;
+		
+		if(ret[i5]*5 == tmp)
+			i5++;
+	}
+	
+	return ret[n-1];
+}
+
+
+//case:超级丑数
+int GetSuperUglyNumber_Solution(int n, vector<int> & primes){
+	int size = primes.size();
+	if(n <= 0 || size <= 0)
+		return 0;
+	
+	vector<int> pos(size, 0);
+	vector<int> ret(n);
+	ret[0] = 1;
+	for(int i=1; i< n; i++){
+		int tmp = INT_MAX;
+		for(int j=0; j < size; j++)
+			tmp = min(tmp, ret[pos[j]]*primes[j]);
+		ret[i] = tmp;
+		for(int j=0; j <size; j++){
+			if(ret[pos[j]] * primes[j] == tmp)
+				pos[j]++;
+		}
+	}
+	
+	return ret[n-1];
+}
