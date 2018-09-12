@@ -1,0 +1,58 @@
+/*
+*输入格式控制
+*/
+//输入 12,34,56,78,90(带,号输入)
+//输出数组[12,34,56,78,90]
+
+
+//version-1
+#include <iostream>
+#include <sstream>
+#include <string>
+#include <vector>
+using namespace  std;
+
+int main(){
+	string str;
+	cin >> str;
+	istringstream is(str);
+	vector<int> nums;
+	int num;
+	char ch;
+	while(is >> num){
+		nums.push_back(num);
+		is >> ch;
+	}
+	for(int i=0; i < nums.size(); i++)
+		cout << nums[i] << " ";
+	cout << endl;
+}
+
+
+
+//version-2
+#include <iostream>
+#include <string.h>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int main(){
+	string str;
+	cin >> str;
+	vector<int> nums;
+	char *pstr = (char*) str.c_str();
+	const char * delim = ",";
+	char * p = strtok(pstr, delim);
+	while(p != NULL){
+		int num = atoi(p);
+		nums.push_back(num);
+		p = strtok(NULL, delim);
+	}
+
+	for(int i=0; i < nums.size(); i++)
+		cout << nums[i] << " ";
+	cout << endl;
+
+}
