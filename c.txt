@@ -1,3 +1,6 @@
 c.txt
 by 2018.12.27
-in master branch
+<<<<<<< HEAD
+=======
+modifg in feature1
+>>>>>>> feature1
