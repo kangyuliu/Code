@@ -1,0 +1,7 @@
+c.txt
+by 2018.12.27
+<<<<<<< HEAD
+=======
+modifg in feature1
+>>>>>>> feature1
+modify in new dev branch
